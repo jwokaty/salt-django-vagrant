@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.python_history
+
+# Environments
+*venv/
+
+# VIM
+*.swo
+*.swp
+.vim*
+
+# Django
+*settings.py
+
+# Vagrant
+.vagrant
+
+# Bash
+.bash_history
+.cache
+.local

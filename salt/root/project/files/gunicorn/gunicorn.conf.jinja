@@ -1,0 +1,7 @@
+[program:gunicorn]
+command={{ salt['pillar.get']('project:virtualenv:path') }}/{{ salt['pillar.get']('project:virtualenv:name') }}/bin/gunicorn --bind {{ salt['pillar.get']('project:gunicorn:bind') }} {{ salt['pillar.get']('project:gunicorn:wsgi') }}:application
+directory={{ salt['pillar.get']('project:django:path') }}
+autostart=true
+autorestart=true
+stderr_logfile={{ salt['pillar.get']('project:gunicorn:log:error') }}
+stdout_logfile={{ salt['pillar.get']('project:gunicorn:log:out') }}

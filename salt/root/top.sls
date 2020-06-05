@@ -1,0 +1,5 @@
+#! jinja|yaml
+
+base:
+  '*':
+    - project

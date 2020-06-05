@@ -1,0 +1,5 @@
+[client]
+
+host		= {{ salt['pillar.get']('project:environment:host') }}
+user		= {{ salt['pillar.get']('project:environment:database:root_user') }}
+password 	= {{ salt['pillar.get']('project:environment:database:root_pass') }}
