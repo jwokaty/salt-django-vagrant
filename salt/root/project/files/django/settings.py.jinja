@@ -140,7 +140,7 @@ DATABASES = {
         'HOST': '{{ salt['pillar.get']('project:django:settings:database:host') }}',
         'PORT': '{{ salt['pillar.get']('project:django:settings:database:port') }}',
         'OPTIONS': {
-            'isolation_level': 'read commited',
+            'isolation_level': 'read committed',
             'sql_mode': 'STRICT_TRANS_TABLES',
         },
         {%- if salt['pillar.get']('project:django:settings:debug') %}
