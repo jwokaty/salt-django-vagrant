@@ -22,11 +22,11 @@ This project requires
 
 ## Set Up
 
-    git clone https://github.com/jwokaty/sdv.git
-    cd sdv
+    git clone https://github.com/jwokaty/salt-django-vagrant.git
+    cd salt-django-vagrant
 
 If desired, make changes to the the project pillar at
-sdv/salt/pillar/project/init.sls. To start the environment, 
+salt-django-vagrant/salt/pillar/project/init.sls. To start the environment,
 
     vagrant up
 
