@@ -16,6 +16,6 @@
 
     ProxyPass /media/ !
     ProxyPass /static/ !
-    ProxyPass / http://{{ salt['pillar.get']('project:environment:host') }}:{{ salt['pillar.get']('project:environment:port') }}
+    ProxyPass / http://{{ salt['pillar.get']('project:environment:host') }}:{{ salt['pillar.get']('project:environment:port') }}/
 
 </VirtualHost>
