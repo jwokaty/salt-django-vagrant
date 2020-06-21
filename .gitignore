@@ -12,7 +12,9 @@ __pycache__/
 .vim*
 
 # Django
+media/
 *settings.py
+static/
 
 # Vagrant
 .vagrant
@@ -21,3 +23,7 @@ __pycache__/
 .bash_history
 .cache
 .local
+
+# Applications
+.mysql_history
+.pylint.d/
