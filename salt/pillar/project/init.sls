@@ -22,13 +22,13 @@
 {%- set django_time_zone = 'America/New_York' -%}
 
 {%- if environment_name == 'dev' %}
-  {%- set project_path = '/home/vagrant' -%}
-  {%- set project_user = 'vagrant' -%}
   {%- set db_user = project_name ~ '_user' -%}
   {%- set db_pass = 'password' -%}
   {%- set db_host = 'localhost' -%}
   {%- set db_port = '336' -%}
   {%- set project_debug = True -%}
+  {%- set project_path = '/home/vagrant' -%}
+  {%- set project_user = 'vagrant' -%}
 {%- else %}
   {# set default configuration variables for prod in future #}
 {%- endif %}
@@ -56,12 +56,12 @@ project:
       {%- endfor %}
       {%- endif %}
       admins:
-        - name: {{ django_admin_name }} 
-          email: {{ django_admin_email }} 
+        - name: {{ django_admin_name }}
+          email: {{ django_admin_email }}
         {# Add an admin block
-        - name: another_admin 
+        - name: another_admin
           email: 'another_admin@another_admin_email.com'
-        #}
+        -#}
       debug: {{ project_debug }}
       database:
         engine: django.db.backends.mysql
@@ -81,14 +81,14 @@ project:
       media: /media
       secret_key: '{{ django_secret_key }}'
       static: /static
-      time_zone: {{ django_time_zone }} 
-  name: {{ project_name }} 
+      time_zone: {{ django_time_zone }}
   gunicorn:
     bind: 0.0.0.0:8000
     log:
       error: {{ log_path }}/gunicorn.err.log
-      out: {{ log_path }}/gunicorn.out.log 
+      out: {{ log_path }}/gunicorn.out.log
     wsgi: project.wsgi
+  name: {{ project_name }}
   packages:
     - python3-dev
     - python3-pip
@@ -102,6 +102,6 @@ project:
     username: {{ project_user }}
     password: password
   virtualenv:
-    name: venv 
+    name: venv
     path: /home/vagrant
-    user: {{ project_user }} 
+    user: {{ project_user }}

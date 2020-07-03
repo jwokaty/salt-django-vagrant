@@ -2,4 +2,4 @@
 
 base:
   '*':
-    - project 
+    - project
