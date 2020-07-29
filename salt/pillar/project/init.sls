@@ -10,11 +10,15 @@
 {%- set django_secret_key = 'REPLACE_WITH_A_SECURE_KEY' -%}
 {%- set project_host = 'localhost' -%}
 {%- set project_port = '8000' -%}
+{%- set email_default_from = 'no-reply@' ~ project_host -%}
 {%- set email_host = 'localhost' -%}
 {%- set email_port = 25 -%}
 {%- set email_host_user = 'vagrant' -%}
 {%- set email_host_pass = 'password' -%}
+{%- set email_server = 'no-reply@' ~ project_host -%}
 {%- set email_subject_prefix = project_name -%}
+{%- set email_use_ssl = False -%}
+{%- set email_use_tls = False -%}
 {%- set log_path = '/var/log' -%}
 {%- set python = '/usr/bin/python3' -%}
 {%- set django_admin_name = 'Admin' -%}
@@ -73,11 +77,15 @@ project:
         atomic: {{ db_atomic }}
       email:
         backend: django.core.mail.backends.smtp.EmailBackend
+        default_from: {{ email_default_from }}
         host: {{ email_host }}
         host_user: {{ email_host_user }}
         host_password: {{ email_host_pass }}
         port: {{ email_port }}
+        server: {{ email_server }}
         subject_prefix: {{ email_subject_prefix }}
+        use_ssl: {{ email_use_ssl }}
+        use_tls: {{ email_use_tls }}
       media: /media
       secret_key: '{{ django_secret_key }}'
       static: /static
