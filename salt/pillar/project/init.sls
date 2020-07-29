@@ -62,10 +62,6 @@ project:
       admins:
         - name: {{ django_admin_name }}
           email: {{ django_admin_email }}
-        {# Add an admin block
-        - name: another_admin
-          email: 'another_admin@another_admin_email.com'
-        -#}
       debug: {{ project_debug }}
       database:
         engine: django.db.backends.mysql
