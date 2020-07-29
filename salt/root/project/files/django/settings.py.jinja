@@ -171,11 +171,17 @@ ADMINS = [
 
 EMAIL_BACKEND = '{{ salt['pillar.get']('project:django:settings:email:backend') }}'
 EMAIL_HOST = '{{ salt['pillar.get']('project:django:settings:email:host') }}'
+{%- if salt['pillar.get']('project:environment:name') != 'dev' %}
 EMAIL_HOST_USER = '{{ salt['pillar.get']('project:django:settings:email:host_user') }}'
 EMAIL_HOST_PASSWORD = '{{ salt['pillar.get']('project:django:settings:email:host_password') }}'
+{%- endif %}
 EMAIL_PORT = {{ salt['pillar.get']('project:django:settings:email:port') }}
 EMAIL_SUBJECT_PREFIX = '[{{ salt['pillar.get']('project:django:settings:email:subject_prefix') }}] '
 EMAIL_USE_LOCALTIME = True
+EMAIL_USE_SSL = {{ salt['pillar.get']('project:django:settings:email:use_ssl') }}
+EMAIL_USE_TLS = {{ salt['pillar.get']('project:django:settings:email:use_tls') }}
+DEFAULT_FROM_EMAIL = '{{ salt['pillar.get']('project:django:settings:email:default_from') }}'
+SERVER_EMAIL = '{{ salt['pillar.get']('project:django:settings:email:server') }}'
 
 
 # CSRF
@@ -196,6 +202,14 @@ DATETIME_FORMAT = 'm/d/y H:i:s'
 LOGGING = {
   'version': 1,
   'disable_existing_loggers': False,
+  'filters': {
+    'require_debug_false': {
+      '()': 'django.utils.log.RequireDebugFalse',
+    },
+    'require_debug_true': {
+      '()': 'django.utils.log.RequireDebugTrue',
+    },
+  },
   'formatters': {
     'verbose': {
       'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
@@ -203,19 +217,58 @@ LOGGING = {
     },
   },
   'handlers': {
-    'file': {
-      'class': 'logging.FileHandler',
+    'debug': {
+      'level': 'DEBUG',
+      'filters': ['require_debug_true'],
+      'class': 'logging.handlers.RotatingFileHandler',
       'filename': '{{ salt['pillar.get']('project:environment:log') }}/{{ salt['pillar.get']('project:name') }}.log',
+      'maxBytes': 1024*1024*5,
+      'backupCount': 5,
+      'formatter': 'verbose',
+    },
+    'default': {
+      'level': 'WARNING',
+      'filters': ['require_debug_false'],
+      'class': 'logging.handlers.RotatingFileHandler',
+      'filename': '{{ salt['pillar.get']('project:environment:log') }}/{{ salt['pillar.get']('project:name') }}.log',
+      'maxBytes': 1024*1024*5,
+      'backupCount': 5,
+      'formatter': 'verbose',
+    },
+    'critical': {
+      'level': 'ERROR',
+      'filters': ['require_debug_false'],
+      'class': 'django.utils.log.AdminEmailHandler',
     },
   },
   'loggers': {
-    'default': {
-      'handlers': ['file'],
+    '': {
+      'handlers': ['default', 'debug', 'critical'],
+      'level': 'DEBUG',
+      'propagate': True,
+    },
+    'django.request': {
+      'handlers': ['default', 'debug', 'critical'],
+      'level': 'WARNING',
+      'propagate': True,
+    },
+    'django.server': {
+      'handlers': ['default', 'debug', 'critical'],
+      'level': 'WARNING',
+      'propagate': True,
+    },
+    'django.template': {
+      'handlers': ['debug'],
+      'level': 'DEBUG',
+      'propagate': True,
+    },
+    'django.security.SuspiciousOperation': {
+      'handlers': ['default', 'debug', 'critical'],
       'level': 'ERROR',
       'propagate': True,
     },
-    'debug': {
-      'handlers': ['file'],
+    'django.db.backends.schema': {
+      'handlers': ['default', 'debug'],
       'level': 'DEBUG',
       'propagate': True,
     },
