@@ -29,7 +29,7 @@
   {%- set db_user = project_name ~ '_user' -%}
   {%- set db_pass = 'password' -%}
   {%- set db_host = 'localhost' -%}
-  {%- set db_port = '336' -%}
+  {%- set db_port = '3306' -%}
   {%- set project_debug = True -%}
   {%- set project_path = '/home/vagrant' -%}
   {%- set project_user = 'vagrant' -%}

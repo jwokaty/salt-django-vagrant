@@ -53,6 +53,14 @@ project_database_user_permissions_granted:
     - require:
       - cmd: project_database_user_created
 
+{%- if project.environment.name == 'dev' %}
+project_test_database_user_permissions_granted:
+  cmd.run:
+    - name: mysql -e "GRANT ALL ON test_{{ project.django.settings.database.name }}.* TO '{{ project.django.settings.database.user }}'@'{{ project.django.settings.database.host }}' IDENTIFIED BY '{{ project.django.settings.database.pass }}'; FLUSH PRIVILEGES;"
+    - require:
+      - cmd: project_database_user_permissions_granted
+{%- endif %}
+
 project_django_settings_created:
   file.managed:
     - name: {{ project.django.path }}/project/settings.py
